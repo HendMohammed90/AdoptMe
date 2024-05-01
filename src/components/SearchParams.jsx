@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import useBreedList from '../hooks/useBreedList';
-import Results from './results';
-
+import Results from './Results';
 const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
-const LOCATIONS = ['Seattle', 'Minneapolis', 'Denver' , 'Carol Stream', 'Bridgeport', 'Charlotte' ,'Springfield', 'Tucson']
+// const LOCATIONS = ['Seattle', 'Minneapolis', 'Denver' , 'Carol Stream', 'Bridgeport', 'Charlotte' ,'Springfield', 'Tucson']
 
 const SearchParams = () => {
   const [location, setLocation] = useState('');
@@ -46,7 +45,7 @@ const SearchParams = () => {
           fetchPets();
         }}
       >
-        {/* <label htmlFor="location">
+        <label htmlFor="location">
           Location
           <input
             id="location"
@@ -54,7 +53,7 @@ const SearchParams = () => {
             placeholder="Location"
             onChange={handleLocationChange}
           />
-        </label> */}
+        </label>
         {/* <label htmlFor="location">
           Location
           <select id="location" value={location} onChange={handleLocationChange}>

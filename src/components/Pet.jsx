@@ -1,11 +1,20 @@
 const Pet = (props) => {
-
-    return (
-      <div>
-        <h1 style={{color:'#ff4f61'}}>{props.name}</h1>
-        <p>It's a {props.animal} and type of breed: {props.breed}</p>
+  const { name, animal, breed, images, location, id } = props;
+  let hero = 'http://pets-images.dev-apis.com/pets/none.jpg';
+  if (images && images.length) {
+    hero = images[0];
+  }
+  return (
+    <a href={`/details/${id}`} className="pet">
+      <div className="image-container">
+        <img src={hero} alt={name} />
       </div>
-    );
-  };
-  
-  export default Pet;
+      <div className="info">
+        <h1>{name}</h1>
+        <h2>{`${animal} — ${breed} — ${location}`}</h2>
+      </div>
+    </a>
+  );
+};
+
+export default Pet;
