@@ -96,7 +96,7 @@ const SearchParams = () => {
         <button>Submit</button>
       </form>
       <div className="search">
-        {!pets.length ? (
+        {!pets.length || !animal.length ? (
           <h1>No Pets Found</h1>
         ) : (
           pets.map((pet) => {
