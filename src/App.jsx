@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import SearchParams from './components/SearchParams';
+import SearchParams from './pages/SearchParams';
 
 
 const App = () => {
