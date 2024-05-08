@@ -1,15 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import SearchParams from './pages/SearchParams';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
+import Details from './pages/Details';
+import  NotFound from './pages/NotFound';
+import './App.css'
 
 const App = () => {
   return (
     <BrowserRouter>
-      <h1>Adopt Me!</h1>
+      <h1 className='logo'>Adopt Me!</h1>
       <Routes>
-        <Route path='/' element={<SearchParams />}></Route>
+        <Route path="/details/:id" element={<Details/>}/>
+        <Route path='/' element={<SearchParams />}/>
+        <Route path='*' element={<NotFound />}/>
       </Routes>
     </BrowserRouter>
   );
