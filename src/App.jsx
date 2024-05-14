@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchParams from './pages/SearchParams';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Details from './pages/Details';
 import  NotFound from './pages/NotFound';
 import './App.css'
@@ -8,7 +8,9 @@ import './App.css'
 const App = () => {
   return (
     <BrowserRouter>
-      <h1 className='logo'>Adopt Me!</h1>
+    <header>
+      <Link to="/" className='logo react'>Adopt Me!</Link>
+    </header>
       <Routes>
         <Route path="/details/:id" element={<Details/>}/>
         <Route path='/' element={<SearchParams />}/>
