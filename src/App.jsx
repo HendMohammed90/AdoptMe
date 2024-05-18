@@ -1,12 +1,20 @@
 import React from 'react';
 import SearchParams from './pages/SearchParams';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Details from './pages/Details';
 import  NotFound from './pages/NotFound';
 import './App.css'
 
+
+// Create a client
+const queryClient = new QueryClient()
+
+
 const App = () => {
+
   return (
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
     <header>
       <Link to="/" className='logo react'>Adopt Me!</Link>
@@ -17,6 +25,7 @@ const App = () => {
         <Route path='*' element={<NotFound />}/>
       </Routes>
     </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 
