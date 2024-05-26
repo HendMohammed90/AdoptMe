@@ -1,42 +1,26 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import usePet from '../hooks/usePet';
 import Loader from '../components/Loader';
 
 function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [petImage, setPetImage] = useState('http://pets-images.dev-apis.com/pets/none.jpg');
 
-  const fetchPet = async () => {
-    // Wrap the fetch in try-catch to handle potential errors
-    try {
-      const res = await fetch(
-        `http://pets-v2.dev-apis.com/pets?id=${id}`
-      ).then((res) => res.json());
-      // Check if the response contains data
-      if (res && res.pets && res.pets.length > 0) {
-        const pet = res.pets[0];
-        setPetImage(pet.images[0]);
-        // Return the pet data
-        return pet;
-      } else {
-        // Handle case where no pet data is returned
-        throw new Error('No pet data found');
-      }
-    } catch (error) {
-      // Handle fetch errors
-      console.error('Error fetching pet:', error);
-      throw error;
-    }
-  };
+// use our usePet Hook
+  const petData = usePet(id);
 
-  const { data: petDataQuery, isLoading, isError } = useQuery({
-    queryKey: ['pets', id],
-    queryFn: fetchPet, // Directly pass the fetchPet function
-  });
 
-  if (isLoading) {
+  // Access pet data only once after data is loaded
+  const pet = petData.isLoading || petData.isError ? null : petData.data;
+
+  // Set image directly based on data availability
+  const imageToUse = petData.data?.images?.[0] || 'http://pets-images.dev-apis.com/pets/none.jpg';
+
+
+
+
+  if (petData.isLoading) {
     return (
       <div>
         Loading... <Loader />
@@ -44,26 +28,24 @@ function Details() {
     );
   }
 
-  if (isError) {
+  if (petData.isError) {
     return <div>Error fetching data</div>;
   }
 
   return (
-    <div className='details'>
-      {!isLoading && petDataQuery && (
-        <div value={petDataQuery} key={petDataQuery.id}>
-          <img src={petImage} alt={petDataQuery.name} className='image-container' />
+    <div className="details">
+      {pet && (
+        <div value={pet} key={pet.id}> {/* Use pet.id for unique key */}
+          <img src={imageToUse} alt={pet.name} className="image-container" />
           <h3>
-            {petDataQuery.name} - {petDataQuery.animal} - {petDataQuery.breed} <br />
-            {petDataQuery.city}, {petDataQuery.state}
+            {pet.name} - {pet.animal} - {pet.breed} <br />
+            {pet.city}, {pet.state}
           </h3>
-          <p>{petDataQuery.description}</p>
-          <button onClick={() => navigate('/')}>Adopt {petDataQuery.name}</button>
+          <p>{pet.description}</p>
+          <button onClick={() => navigate('/')}>Adopt {pet.name} </button>
           <br />
         </div>
       )}
-
-      <br />
       <button onClick={() => navigate('/')}>Back</button>
     </div>
   );
