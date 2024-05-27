@@ -10,23 +10,20 @@ import './App.css'
 
 // Create a client
 const queryClient = new QueryClient({
-  defaultOptions: {
+    defaultOptions: {
     queries: {
-      staleTime: Infinity, // 1 minute
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      cacheTime: Infinity,
-      },
-      },
-})
+      staleTime: (1000 * 60 * 60 ),
+      cacheTime: (1000 * 60 * 60 ),
+    },
+  },
+});
 
 
 const App = () => {
 
   return (
-    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
     <header>
       <Link to="/" className='logo react'>Adopt Me!</Link>
     </header>
@@ -35,9 +32,8 @@ const App = () => {
         <Route path='/' element={<SearchParams />}/>
         <Route path='*' element={<NotFound />}/>
       </Routes>
-    </BrowserRouter>
-    <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
+    </BrowserRouter>
   );
 };
 
