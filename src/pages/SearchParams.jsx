@@ -4,13 +4,18 @@ import Results from '../components/Results';
 const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 // const LOCATIONS = ['Seattle', 'Minneapolis', 'Denver' , 'Carol Stream', 'Bridgeport', 'Charlotte' ,'Springfield', 'Tucson']
 
+import Loader from '../components/Loader';
+
 const SearchParams = () => {
   const [location, setLocation] = useState('');
   const [animal, setAnimal] = useState('');
   const [breed, setBreed] = useState('');
   const [pets, setPets] = useState([]);
 
-  const breeds = useBreedList(animal);
+  const breedsQuery = useBreedList(animal);
+
+  // Access pet data only once after data is loaded
+  const breeds = breedsQuery?.data?.breeds ?? []
 
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
