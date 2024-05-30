@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import usePet from '../hooks/usePet';
 import Loader from '../components/Loader';
+import Carousel from "../components/Carousel"
+
 
 function Details() {
   const { id } = useParams();
@@ -34,9 +36,10 @@ function Details() {
 
   return (
     <div className="details">
+      <Carousel images={pet.images}/>
       {pet && (
         <div value={pet} key={pet.id}> {/* Use pet.id for unique key */}
-          <img src={imageToUse} alt={pet.name} className="image-container" />
+          {/* <img src={imageToUse} alt={pet.name} className="image-container" /> */}
           <h3>
             {pet.name} - {pet.animal} - {pet.breed} <br />
             {pet.city}, {pet.state}
