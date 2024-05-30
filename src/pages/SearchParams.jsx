@@ -6,65 +6,56 @@ const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 import usePetSearch from "../hooks/usePetSearch"
 
 const SearchParams = () => {
-  const [location, setLocation] = useState('');
-  const [animal, setAnimal] = useState('');
-  const [breed, setBreed] = useState('');
 
-  const breedsQuery = useBreedList(animal);
+  const [searchParams , setSearchParams] = useState({
+    location : '',
+    animal : '',
+    breed  :''
+  })
 
-  // Access breeds data only once after data is loaded
+  const breedsQuery = useBreedList(searchParams.animal);
+
   const breeds = breedsQuery?.data?.breeds ?? []
 
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
-  };
-
-  const handleAnimalChange = (e) => {
-    setAnimal(e.target.value);
-    setBreed('');
-  };
-
-  const handleBreedChange = (e) => {
-    setBreed(e.target.value);
-  };
-
-  const PetsQuery = usePetSearch({animal ,location , breed});
+  const PetsQuery = usePetSearch(searchParams);
 
   // Access pets data only once after data is loaded
   const pets = PetsQuery.isLoading || PetsQuery.isError ? [] : PetsQuery?.data?.pets;
-
+  const Pets = PetsQuery?.data?.pets ?? []
 
   return (
     <div className="search-params">
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          fetchPets();
+          const formData = new FormData(e.target);
+          const animal = formData.get('animal');
+          const location = formData.get('location');
+          const breed = formData.get('breed');
+          setSearchParams({ animal, location, breed });
         }}
       >
         <label htmlFor="location">
           Location
           <input
             id="location"
-            value={location}
             placeholder="Location"
-            onChange={handleLocationChange}
+            name='location'
           />
         </label>
-        {/* <label htmlFor="location">
-          Location
-          <select id="location" value={location} onChange={handleLocationChange}>
-            <option />
-            {LOCATIONS.map((location) => (
-              <option value={location} key={location}>
-                {location}
-              </option>
-            ))}
-          </select>
-        </label> */}
         <label htmlFor="animal">
           Animal
-          <select id="animal" value={animal} onChange={handleAnimalChange}>
+          <select id="animal" 
+          onChange={(e)=>{
+            setSearchParams(
+              {
+                ...searchParams,
+                animal: e.target.value,
+                breed: ''
+              }
+            )
+          }}
+          >
             <option />
             {ANIMALS.map((animal) => (
               <option value={animal} key={animal}>
@@ -77,9 +68,17 @@ const SearchParams = () => {
           Breed
           <select
             disabled={!breeds.length}
+            name='breed'
             id="breed"
-            value={breed}
-            onChange={handleBreedChange}
+            // onChange={handleBreedChange}
+            onChange={(e)=>{
+              setSearchParams(
+                {
+                  ...searchParams,
+                  breed: e.target.value
+                }
+              )
+            }}
           >
             <option />
             {breeds.map((breed) => (
@@ -89,6 +88,7 @@ const SearchParams = () => {
             ))}
           </select>
         </label>
+        <button type='submit'>submit</button>
       </form>
       <Results pets={pets}/>
     </div>
