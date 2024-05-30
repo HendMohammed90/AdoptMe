@@ -13,25 +13,26 @@ const SearchParams = () => {
     breed  :''
   })
 
+  const PetsQuery = usePetSearch(searchParams);
+
   const breedsQuery = useBreedList(searchParams.animal);
 
   const breeds = breedsQuery?.data?.breeds ?? []
 
-  const PetsQuery = usePetSearch(searchParams);
 
   // Access pets data only once after data is loaded
-  const pets = PetsQuery.isLoading || PetsQuery.isError ? [] : PetsQuery?.data?.pets;
-  const Pets = PetsQuery?.data?.pets ?? []
+  // const pets = PetsQuery.isLoading || PetsQuery.isError ? [] : PetsQuery?.data?.pets;
+  const pets = PetsQuery?.data?.pets ?? []
 
   return (
     <div className="search-params">
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target);
-          const animal = formData.get('animal');
-          const location = formData.get('location');
-          const breed = formData.get('breed');
+          const formDate = new FormData(e.target);
+          const animal = formDate.get('animal');
+          const location = formDate.get('location');
+          const breed = formDate.get('breed');
           setSearchParams({ animal, location, breed });
         }}
       >
