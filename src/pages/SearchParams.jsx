@@ -3,18 +3,16 @@ import useBreedList from '../hooks/useBreedList';
 import Results from '../components/Results';
 const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 // const LOCATIONS = ['Seattle', 'Minneapolis', 'Denver' , 'Carol Stream', 'Bridgeport', 'Charlotte' ,'Springfield', 'Tucson']
-
-import Loader from '../components/Loader';
+import usePetSearch from "../hooks/usePetSearch"
 
 const SearchParams = () => {
   const [location, setLocation] = useState('');
   const [animal, setAnimal] = useState('');
   const [breed, setBreed] = useState('');
-  const [pets, setPets] = useState([]);
 
   const breedsQuery = useBreedList(animal);
 
-  // Access pet data only once after data is loaded
+  // Access breeds data only once after data is loaded
   const breeds = breedsQuery?.data?.breeds ?? []
 
   const handleLocationChange = (e) => {
@@ -30,17 +28,11 @@ const SearchParams = () => {
     setBreed(e.target.value);
   };
 
-  const fetchPets = async () => {
-    const res = await fetch(
-      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
-    );
-    const json = await res.json();
-    setPets(json.pets);
-  };
+  const PetsQuery = usePetSearch({animal ,location , breed});
 
-  useEffect(() => {
-    fetchPets();
-  }, []); 
+  // Access pets data only once after data is loaded
+  const pets = PetsQuery.isLoading || PetsQuery.isError ? [] : PetsQuery?.data?.pets;
+
 
   return (
     <div className="search-params">
@@ -97,7 +89,6 @@ const SearchParams = () => {
             ))}
           </select>
         </label>
-        <button>Submit</button>
       </form>
       <Results pets={pets}/>
     </div>
