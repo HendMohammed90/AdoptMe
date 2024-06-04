@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useBreedList from '../hooks/useBreedList';
 import Results from '../components/Results';
 const ANIMALS = ['bird', 'cat', 'dog', 'rabbit', 'reptile'];
 // const LOCATIONS = ['Seattle', 'Minneapolis', 'Denver' , 'Carol Stream', 'Bridgeport', 'Charlotte' ,'Springfield', 'Tucson']
 import usePetSearch from "../hooks/usePetSearch"
+import { ErrorBoundary } from "react-error-boundary";
+
 
 const SearchParams = () => {
 
@@ -91,7 +93,9 @@ const SearchParams = () => {
         </label>
         <button type='submit'>submit</button>
       </form>
-      <Results pets={pets}/>
+      <ErrorBoundary fallback={<div>Something went wrong 😵‍💫🤷🏻‍♀️</div>}>
+        <Results pets={pets}/>
+      </ErrorBoundary>
     </div>
   );
 };
