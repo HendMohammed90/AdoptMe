@@ -23,6 +23,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+    <div id="modal"></div>
     <QueryClientProvider client={queryClient}>
     <header>
       <Link to="/" className='logo react'>Adopt Me!</Link>

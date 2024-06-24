@@ -3,11 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import usePet from '../hooks/usePet';
 import Loader from '../components/Loader';
 import Carousel from "../components/Carousel"
+import Modal from '../components/Modal';
 
 
 function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [showModal , setShowModal] = useState(false);
 
 // use our usePet Hook
   const petData = usePet(id);
@@ -45,11 +48,23 @@ function Details() {
             {pet.city}, {pet.state}
           </h3>
           <p>{pet.description}</p>
-          <button onClick={() => navigate('/')}>Adopt {pet.name} </button>
+          <button onClick={() => setShowModal(true)}>Adopt {pet.name} </button>
           <br />
         </div>
       )}
       <button onClick={() => navigate('/')}>Back</button>
+      {showModal && (
+            <Modal>
+              <div>
+                <h1>Would you like to adopt {pet.name}?</h1>
+                <div className="buttons">
+                  <button>Yes</button>
+                  <button onClick={() => setShowModal(false)}>No</button>
+                </div>
+              </div>
+            </Modal>
+          )}
+      
     </div>
   );
 }
