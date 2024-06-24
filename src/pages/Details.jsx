@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import usePet from '../hooks/usePet';
 import Loader from '../components/Loader';
 import Carousel from "../components/Carousel"
 import Modal from '../components/Modal';
+import AdoptedPetContext from '../contexts/AdoptedPetContext';
 
 
 function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [showModal , setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [,setAdoptedPet] = useContext(AdoptedPetContext);
 
-// use our usePet Hook
+  const handleClickForAdoption = () => {
+    setAdoptedPet((prevAdoptedPet) => [...prevAdoptedPet, pet]);
+    setShowModal(false);
+    navigate('/');
+  };
+  // use our usePet Hook
   const petData = usePet(id);
 
 
@@ -39,7 +46,7 @@ function Details() {
 
   return (
     <div className="details">
-      <Carousel images={pet.images}/>
+      <Carousel images={pet.images} />
       {pet && (
         <div value={pet} key={pet.id}> {/* Use pet.id for unique key */}
           {/* <img src={imageToUse} alt={pet.name} className="image-container" /> */}
@@ -54,17 +61,17 @@ function Details() {
       )}
       <button onClick={() => navigate('/')}>Back</button>
       {showModal && (
-            <Modal>
-              <div>
-                <h1>Would you like to adopt {pet.name}?</h1>
-                <div className="buttons">
-                  <button>Yes</button>
-                  <button onClick={() => setShowModal(false)}>No</button>
-                </div>
-              </div>
-            </Modal>
-          )}
-      
+        <Modal>
+          <div>
+            <h1>Would you like to adopt {pet.name}?</h1>
+            <div className="buttons">
+              <button onClick={handleClickForAdoption}>Yes</button>
+              <button onClick={() => setShowModal(false)}>No</button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
     </div>
   );
 }
