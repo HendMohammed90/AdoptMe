@@ -15,13 +15,13 @@ const SearchParams = () => {
     breed  :''
   })
 
-  const PetsQuery = usePetSearch(searchParams);
-
+  
   const breedsQuery = useBreedList(searchParams.animal);
-
+  
   const breeds = breedsQuery?.data?.breeds ?? []
-
-
+  
+  
+  const PetsQuery = usePetSearch(searchParams);
   // Access pets data only once after data is loaded
   // const pets = PetsQuery.isLoading || PetsQuery.isError ? [] : PetsQuery?.data?.pets;
   const pets = PetsQuery?.data?.pets ?? []
