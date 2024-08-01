@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 const usePet = (petId) => {
-    
+
     const fetchPet = async () => {
         // Wrap the fetch in try-catch to handle potential errors
         try {
             const res = await fetch(
-                `http://pets-v2.dev-apis.com/pets?id=${petId}`
+                `https://pets-v2.dev-apis.com/pets?id=${petId}`
             ).then((res) => res.json());
             // Check if the response contains data
             if (res && res.pets && res.pets.length > 0) {

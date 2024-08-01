@@ -27,7 +27,7 @@ function Details() {
   const pet = petData.isLoading || petData.isError ? null : petData.data;
 
   // Set image directly based on data availability
-  const imageToUse = petData.data?.images?.[0] || 'http://pets-images.dev-apis.com/pets/none.jpg';
+  const imageToUse = petData.data?.images?.[0] || 'https://pets-images.dev-apis.com/pets/none.jpg';
 
 
 
